@@ -46,7 +46,7 @@ public class ServiceMachine {
         {
             machine.setSite(site);
         }
-       System.out.println(num+1+utilisateur+site);
+
     }
     public void addNewMachine(Machine machine) {
         machineRepository.save(machine) ;
