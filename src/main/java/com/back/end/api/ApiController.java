@@ -1,7 +1,9 @@
 package com.back.end.api;
+import com.back.end.ServiceImprimante.ServiceImprimante;
 import com.back.end.ServiceMachine.ServiceMachine;
 import com.back.end.ServiceToner.ServiceToner;
 import com.back.end.ServiceUser.ServiceUser;
+import com.back.end.model.Imprimante;
 import com.back.end.model.Machine;
 import com.back.end.model.Toner;
 import com.back.end.model.User;
@@ -16,12 +18,15 @@ public class ApiController {
     private final ServiceMachine serviceMachine ;
     private final ServiceToner serviceToner ;
 
+    private final ServiceImprimante serviceImprimante ;
+
 
     @Autowired
-    public ApiController(ServiceUser serviceUser, ServiceMachine serviceMachine, ServiceToner serviceToner) {
+    public ApiController(ServiceUser serviceUser, ServiceMachine serviceMachine, ServiceToner serviceToner, ServiceImprimante serviceImprimante) {
         this.serviceUser = serviceUser;
         this.serviceMachine = serviceMachine;
         this.serviceToner = serviceToner;
+        this.serviceImprimante = serviceImprimante;
     }
     @GetMapping
     public List<User> getUser() {
@@ -109,7 +114,33 @@ public class ApiController {
         serviceToner.deleteToner(num_toner);
     }
 
+    @PostMapping(path = "addimprimante")
+    public void addImprimante(@RequestBody Imprimante imprimante)
+    {
+    serviceImprimante.addImprimante(imprimante);
+    }
 
+    @GetMapping(path = "getImprimante")
+    public List<Imprimante> getImprimante()
+    {
+        return serviceImprimante.getImprimante();
+    }
+    @PutMapping("updateImprimante/{num}")
+    public void updateImprimante(@PathVariable int num ,
+                                 @RequestParam(required = false) String site ,
+                                 @RequestParam(required = false) String etat ,
+                                 @RequestParam (required = false) String description
+                                 )
+    {
+            serviceImprimante.updateImprimante(num,site,etat,description);
+    }
+    @DeleteMapping(path = "deleteImprimante/{num}")
+    public void deleteImprimante(@PathVariable int num )
+    {
+        serviceImprimante.deleteImprimante(num);
+    }
+
+    
 
 
 }
